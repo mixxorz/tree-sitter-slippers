@@ -5,32 +5,39 @@ A [tree-sitter](https://tree-sitter.github.io/tree-sitter/) grammar for [Slipper
 Based on [tree-sitter-htmldjango](https://github.com/interdependence/tree-sitter-htmldjango), extended with Slippers-specific syntax:
 
 - Block components: `{% #ComponentName %}...{% /ComponentName %}`
-- Component props: `key="value"`, `key=variable`, `boolean_flag`
 - Python front matter: `---` delimited block at the top of `.html` files
 
 ## Neovim setup
 
-Register the parser and queries with [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter):
+Neovim 0.10+ has built-in tree-sitter support. `nvim-treesitter` is not required.
 
-```lua
-local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
-parser_config.slippers = {
-  install_info = {
-    url = "https://github.com/mixxorz/tree-sitter-slippers",
-    files = { "src/parser.c" },
-    branch = "main",
-  },
-  filetype = "slippers",
-}
+### 1. Compile the parser
+
+```sh
+git clone https://github.com/mixxorz/tree-sitter-slippers
+cd tree-sitter-slippers
+cc -o slippers.so -shared -fPIC -Os src/parser.c -Isrc
 ```
 
-Then install the parser:
+On macOS, use:
 
-```
-:TSInstall slippers
+```sh
+cc -o slippers.so -shared -fPIC -Os src/parser.c -Isrc -undefined dynamic_lookup
 ```
 
-### Filetype detection
+### 2. Install the parser and queries
+
+```sh
+# Copy the compiled parser
+cp slippers.so ~/.local/share/nvim/site/parser/
+
+# Copy the query files
+mkdir -p ~/.config/nvim/queries/slippers
+cp queries/highlights.scm ~/.config/nvim/queries/slippers/
+cp queries/injections.scm ~/.config/nvim/queries/slippers/
+```
+
+### 3. Filetype detection
 
 Neovim won't automatically know that an `.html` file is a Slippers template. Add this to your config to detect them by content — a file is treated as Slippers if it contains a block component tag (`{% #... %}`) or starts with a front matter delimiter (`---`):
 
