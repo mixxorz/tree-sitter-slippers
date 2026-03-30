@@ -1,0 +1,14 @@
+{
+  "grammars": [
+    {
+      "name": "slippers",
+      "scope": "source.slippers",
+      "file-types": ["html"],
+      "injection-regex": "slippers",
+      "path": "."
+    }
+  ],
+  "metadata": {
+    "version": "0.1.0"
+  }
+}

@@ -1,0 +1,186 @@
+================================================================================
+Inline component tag
+================================================================================
+
+{% Avatar %}
+
+--------------------------------------------------------------------------------
+
+(template
+  (unpaired_statement
+    (tag_name))
+  (content))
+
+================================================================================
+Inline component with props
+================================================================================
+
+{% Avatar size="large" active %}
+
+--------------------------------------------------------------------------------
+
+(template
+  (unpaired_statement
+    (tag_name)
+    (variable
+      (variable_name))
+    (string)
+    (variable
+      (variable_name)))
+  (content))
+
+================================================================================
+Block component
+================================================================================
+
+{% #Card %}Hello{% /Card %}
+
+--------------------------------------------------------------------------------
+
+(template
+  (component_block
+    (component_name)
+    (content)
+    (component_name))
+  (content))
+
+================================================================================
+Block component with props
+================================================================================
+
+{% #Button variant="primary" disabled %}Click me{% /Button %}
+
+--------------------------------------------------------------------------------
+
+(template
+  (component_block
+    (component_name)
+    (prop_name)
+    (string)
+    (prop_name)
+    (content)
+    (component_name))
+  (content))
+
+================================================================================
+Nested block components
+================================================================================
+
+{% #Card %}{% #Badge %}New{% /Badge %}{% /Card %}
+
+--------------------------------------------------------------------------------
+
+(template
+  (component_block
+    (component_name)
+    (component_block
+      (component_name)
+      (content)
+      (component_name))
+    (component_name))
+  (content))
+
+================================================================================
+Block component with variable prop
+================================================================================
+
+{% #Card title=page_title %}Content{% /Card %}
+
+--------------------------------------------------------------------------------
+
+(template
+  (component_block
+    (component_name)
+    (prop_name)
+    (variable
+      (variable_name))
+    (content)
+    (component_name))
+  (content))
+
+================================================================================
+Lowercase block component
+================================================================================
+
+{% #button %}I am button{% /button %}
+
+--------------------------------------------------------------------------------
+
+(template
+  (component_block
+    (component_name)
+    (content)
+    (component_name))
+  (content))
+
+================================================================================
+Snake case block component
+================================================================================
+
+{% #icon_button icon="envelope" %}Submit{% /icon_button %}
+
+--------------------------------------------------------------------------------
+
+(template
+  (component_block
+    (component_name)
+    (prop_name)
+    (string)
+    (content)
+    (component_name))
+  (content))
+
+================================================================================
+Block component with as capture
+================================================================================
+
+{% #button as my_button %}I am button{% /button %}
+
+--------------------------------------------------------------------------------
+
+(template
+  (component_block
+    (component_name)
+    (capture_var)
+    (content)
+    (component_name))
+  (content))
+
+================================================================================
+Component with boolean prop value
+================================================================================
+
+{% #Button disabled=True %}Click{% /Button %}
+
+--------------------------------------------------------------------------------
+
+(template
+  (component_block
+    (component_name)
+    (prop_name)
+    (boolean)
+    (content)
+    (component_name))
+  (content))
+
+================================================================================
+Component with framework-style props
+================================================================================
+
+{% #Input @click=handleClick x-bind:class=classes aria-label="Search" %}{% /Input %}
+
+--------------------------------------------------------------------------------
+
+(template
+  (component_block
+    (component_name)
+    (prop_name)
+    (variable
+      (variable_name))
+    (prop_name)
+    (variable
+      (variable_name))
+    (prop_name)
+    (string)
+    (component_name))
+  (content))

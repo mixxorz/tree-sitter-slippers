@@ -1,0 +1,36 @@
+{
+  "name": "tree-sitter-slippers",
+  "version": "0.1.0",
+  "description": "Tree-sitter grammar for Slippers Django component templates",
+  "main": "bindings/node",
+  "keywords": [
+    "slippers",
+    "django",
+    "tree-sitter",
+    "parser"
+  ],
+  "license": "MIT",
+  "files": [
+    "grammar.js",
+    "binding.gyp",
+    "prebuilds/**",
+    "bindings/node/*",
+    "queries/*",
+    "src/**"
+  ],
+  "dependencies": {
+    "node-addon-api": "^7.1.0"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "^0.25.0"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.slippers",
+      "file-types": [
+        "html"
+      ],
+      "injection-regex": "slippers"
+    }
+  ]
+}
