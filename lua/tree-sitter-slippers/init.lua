@@ -12,7 +12,7 @@ function M.setup(opts)
     pattern = {
       [".*%.html"] = {
         function(_, bufnr)
-          local lines = vim.api.nvim_buf_get_lines(bufnr, 0, 10, false)
+          local lines = vim.api.nvim_buf_get_lines(bufnr, 0, 40, false)
           if lines[1] == "---" then
             return "slippers"
           end
