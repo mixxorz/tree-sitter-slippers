@@ -5,9 +5,11 @@ src/node-types.json
 # Build artifacts
 build/
 target/
-*.so
 *.dylib
 *.dll
+
+# Compiled Neovim parser (built locally by `make`)
+parser/*.so
 
 # Node
 node_modules/

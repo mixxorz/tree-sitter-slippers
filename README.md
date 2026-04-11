@@ -9,58 +9,60 @@ Based on [tree-sitter-htmldjango](https://github.com/interdependence/tree-sitter
 
 ## Neovim setup
 
-Neovim 0.10+ has built-in tree-sitter support. `nvim-treesitter` is not required.
-
-### 1. Compile the parser
-
-```sh
-git clone https://github.com/mixxorz/tree-sitter-slippers
-cd tree-sitter-slippers
-cc -o slippers.so -shared -fPIC -Os src/parser.c -Isrc
-```
-
-On macOS, use:
-
-```sh
-cc -o slippers.so -shared -fPIC -Os src/parser.c -Isrc -undefined dynamic_lookup
-```
-
-### 2. Install the parser and queries
-
-```sh
-# Copy the compiled parser
-cp slippers.so ~/.local/share/nvim/site/parser/
-
-# Copy the query files
-mkdir -p ~/.config/nvim/queries/slippers
-cp queries/highlights.scm ~/.config/nvim/queries/slippers/
-cp queries/injections.scm ~/.config/nvim/queries/slippers/
-```
-
-### 3. Filetype detection
-
-Neovim won't automatically know that an `.html` file is a Slippers template. Add this to your config to detect them by content — a file is treated as Slippers if it contains a block component tag (`{% #... %}`) or starts with a front matter delimiter (`---`):
+### With lazy.nvim (recommended)
 
 ```lua
-vim.filetype.add({
-  pattern = {
-    [".*%.html"] = {
-      function(path, bufnr)
-        local lines = vim.api.nvim_buf_get_lines(bufnr, 0, 10, false)
-        if lines[1] == "---" then
-          return "slippers"
-        end
-        for _, line in ipairs(lines) do
-          if line:match("{%%-?%s*#%w") then
-            return "slippers"
-          end
-        end
-      end,
-      { priority = 10 },
-    },
-  },
-})
+{
+  "mixxorz/tree-sitter-slippers",
+  build = "make",
+}
 ```
+
+lazy.nvim will clone the repo, run `make` to compile the parser, and add the plugin to the runtimepath. Filetype detection runs automatically — no additional config needed.
+
+#### Customising filetype detection
+
+The plugin detects `.html` files as Slippers templates when the first 10 lines contain a block component tag (`{% #... %}`) or when line 1 is `---` (Python front matter delimiter).
+
+To customise or disable automatic setup:
+
+```lua
+{
+  "mixxorz/tree-sitter-slippers",
+  build = "make",
+  init = function()
+    vim.g.slippers_disable_auto_setup = true
+  end,
+  config = function()
+    require("tree-sitter-slippers").setup({
+      priority = 20,  -- override filetype detection priority (default: 10)
+    })
+  end,
+}
+```
+
+### Manual installation (without a plugin manager)
+
+<details>
+<summary>Expand instructions</summary>
+
+#### 1. Clone into a Neovim pack directory
+
+```sh
+git clone https://github.com/mixxorz/tree-sitter-slippers \
+  ~/.local/share/nvim/site/pack/plugins/start/tree-sitter-slippers
+```
+
+#### 2. Compile the parser
+
+```sh
+cd ~/.local/share/nvim/site/pack/plugins/start/tree-sitter-slippers
+make
+```
+
+Neovim will automatically find `parser/slippers.so` and `queries/slippers/` from the pack directory.
+
+</details>
 
 ## Development
 
@@ -73,4 +75,10 @@ tree-sitter test
 
 # Parse a file
 tree-sitter parse path/to/template.html
+
+# Build the Neovim parser
+make
+
+# Remove the built parser
+make clean
 ```
