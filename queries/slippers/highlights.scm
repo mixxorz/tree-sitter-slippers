@@ -16,8 +16,10 @@
 ; Django tag names
 (tag_name) @keyword
 
-; Slippers component names
+; Slippers component names and their sigils
 (component_name) @type
+(component_block "#" @type)
+(component_block "/" @type)
 
 ; Slippers prop names
 (prop_name) @property

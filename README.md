@@ -9,7 +9,7 @@ Based on [tree-sitter-htmldjango](https://github.com/interdependence/tree-sitter
 
 ## Neovim setup
 
-### With lazy.nvim (recommended)
+### With lazy.nvim
 
 ```lua
 {
@@ -19,6 +19,21 @@ Based on [tree-sitter-htmldjango](https://github.com/interdependence/tree-sitter
 ```
 
 lazy.nvim will clone the repo, run `make` to compile the parser, and add the plugin to the runtimepath. Filetype detection runs automatically — no additional config needed.
+
+### With vim-plug
+
+```vim
+Plug 'mixxorz/tree-sitter-slippers', { 'do': 'make' }
+```
+
+### With packer.nvim
+
+```lua
+use {
+  "mixxorz/tree-sitter-slippers",
+  run = "make",
+}
+```
 
 #### Customising filetype detection
 
